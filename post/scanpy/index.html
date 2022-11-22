@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Scanpy | Bosibocai&#39;s blog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://bosibocai.github.io/favicon.ico?v=1669080839854">
+<link rel="stylesheet" href="https://bosibocai.github.io/styles/main.css">
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css"> -->
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+Scanpy 是一个基于 Python 分析单细胞数据的软件包，内容包括预处理，可视化，聚类，拟时序分析和差异表达分析等
+
+
+数据：Anndata
+
+anndata - Annotated data — anndata 
+
+
+
+
+信息
+数..." />
+    <meta name="keywords" content="Single-cell" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://bosibocai.github.io">
+        <img src="https://bosibocai.github.io/images/avatar.png?v=1669080839854" class="site-logo">
+        <h1 class="site-title">Bosibocai&#39;s blog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      人生如逆旅 我亦是行人
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://bosibocai.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Scanpy</h2>
+            <div class="post-date">2022-11-05</div>
+            
+            <div class="post-content" v-pre>
+              <blockquote>
+<p>Scanpy 是一个基于 Python 分析单细胞数据的软件包，内容包括预处理，可视化，聚类，拟时序分析和差异表达分析等</p>
+</blockquote>
+<!-- more -->
+<h3 id="数据anndata">数据：Anndata</h3>
+<p><img src="https://bosibocai.github.io/post-images/1667626811003.jpg" alt="" loading="lazy"><br>
+<a href="https://anndata.readthedocs.io/en/latest/">anndata - Annotated data — anndata </a></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>信息</th>
+<th>数据类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>X</td>
+<td>矩阵信息</td>
+<td>ndarray</td>
+</tr>
+<tr>
+<td>obs</td>
+<td>观测值</td>
+<td>pandas Dataframe</td>
+</tr>
+<tr>
+<td>var</td>
+<td>特征值</td>
+<td>pandas Dataframe</td>
+</tr>
+<tr>
+<td>uns</td>
+<td>非结构化数据</td>
+<td>dict</td>
+</tr>
+<tr>
+<td>obsm</td>
+<td>观测的多维注释</td>
+<td>ndarray</td>
+</tr>
+<tr>
+<td>obsp</td>
+<td>观测的配对注释</td>
+<td>ndarray</td>
+</tr>
+<tr>
+<td>varm</td>
+<td>特征的多维注释</td>
+<td>ndarray</td>
+</tr>
+<tr>
+<td>varp</td>
+<td>特征的配对注释</td>
+<td>ndarray</td>
+</tr>
+</tbody>
+</table>
+<h4 id="文件格式">文件格式</h4>
+<p>fragments 文件</p>
+<p>peak_counts 文件：h5ad</p>
+<h3 id="组件">组件</h3>
+<p>1.pp：数据预处理</p>
+<p>2.tl：额外添加信息</p>
+<p>3.pl：可视化</p>
+<h4 id="数据预处理">数据预处理</h4>
+<p>1.sc.pp.filter_cells</p>
+<pre><code class="language-python">sc.pp.filter_cells(data, min_genes=None, max_genes=None)
+</code></pre>
+<p>​	细胞筛选，保留测序的基因数为[min_genes,max_genes]的细胞 （注意，min和max不能同时传递），运行过后obs多个一个属性 n_genes<br>
+2.sc.pp.filter_genes</p>
+<pre><code class="language-python">sc.pp.filter_genes(data, min_cells=None, max_genes=None)
+</code></pre>
+<p>​	基因筛选，保留在细胞出现次数为[min_cells,max_cells]的基因 （注意，min和max不能同时传递），运行过后var多个一个属性n_cells<br>
+3.sc.pp.highly_variable_genes</p>
+<pre><code class="language-python">sc.pp.highly_variable_genes(data,
+							n_top_genes=None,
+							min_disp=0.5
+							max_disp=inf,
+							min_mean=0.0125,
+							max_mean=3)
+</code></pre>
+<p>4.sc.pp.normalize_total</p>
+<pre><code>sc.pp.normalize_total(adata, target_sum=None, inplace=True)
+</code></pre>
+<p>​	归一化扩展，对每个细胞进行标准化，以便每个细胞在标准化后沿着基因方向求和具有相同的总数target_sum</p>
+<h4 id="可视化">可视化</h4>
+<p>1.sc.pl.highest_expr_genes</p>
+<pre><code class="language-python">sc.pl.highest_expr_genes(adata, n_top=20)
+</code></pre>
+<p>​	可视化所有细胞中计数最多的20个基因，同时计算百分比含量</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://bosibocai.github.io/tag/jrXEsb8mz/" class="tag">
+                    Single-cell
+                  </a>
+                
+              </div>
+            
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

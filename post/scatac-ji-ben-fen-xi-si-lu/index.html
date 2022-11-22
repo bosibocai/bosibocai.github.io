@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>scATAC基本分析思路 | Bosibocai&#39;s blog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://bosibocai.github.io/favicon.ico?v=1669080839854">
+<link rel="stylesheet" href="https://bosibocai.github.io/styles/main.css">
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css"> -->
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+scATAC揭示了单细胞分辨率的表观遗传景观。 该测定法已成功应用于鉴定细胞类型及其特定的调控件揭示细胞异质性，映射疾病相关的远端元素并重建分化轨迹 。然而，由于accessible peaks的固有高维度，以及单细胞sequencing..." />
+    <meta name="keywords" content="" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://bosibocai.github.io">
+        <img src="https://bosibocai.github.io/images/avatar.png?v=1669080839854" class="site-logo">
+        <h1 class="site-title">Bosibocai&#39;s blog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      人生如逆旅 我亦是行人
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://bosibocai.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">scATAC基本分析思路</h2>
+            <div class="post-date">2022-11-16</div>
+            
+            <div class="post-content" v-pre>
+              <blockquote>
+<p>scATAC揭示了单细胞分辨率的表观遗传景观。 该测定法已成功应用于鉴定细胞类型及其特定的调控件揭示细胞异质性，映射疾病相关的远端元素并重建分化轨迹 。然而，由于accessible peaks的固有高维度，以及单细胞sequencing reads的稀疏性，分析scATAC 数据仍然面临着巨大的挑战。</p>
+</blockquote>
+<!-- more -->
+<h3 id="概述">概述</h3>
+<p>scATAC数据具有以下几个特点：</p>
+<ul>
+<li>
+<p>高维度</p>
+<p>检测到的可能开放区域高达几十万</p>
+</li>
+<li>
+<p>Binary</p>
+<p>每个开放区域在二倍体基因组上通常只有两个拷贝，导致数据接近二值化</p>
+</li>
+<li>
+<p>极端稀疏性</p>
+<p>由于细胞异质性以及技术原因，导致每个单细胞都有大量的开放区域没有信号</p>
+</li>
+</ul>
+<p>传统的降维和可视化方法以及基于样本距离聚类的方法无法在单细胞ATAC-seq数据上取得很好的效果。且由于单细胞ATAC-seq相比于单细胞RNA-seq数据，具有二值化和更加稀疏的特性，直接应用单细胞RNA-seq的方法也不太理想。</p>
+<p>分析流程：</p>
+<ul>
+<li>质控 -- 参考ENCODE
+<ul>
+<li>TF可及性分析</li>
+<li>共可及性分析</li>
+<li>GeneScore Matrix</li>
+</ul>
+</li>
+<li>聚类
+<ul>
+<li>策略1，Tile Matrix</li>
+<li>策略2，PeakMatrix</li>
+<li>策略3，TF-motif Matrix</li>
+</ul>
+</li>
+<li>细胞类型注释
+<ul>
+<li>策略1，Marker Gene可及性人工注释</li>
+<li>策略2，GeneScore人工/软件注释</li>
+<li>策略3，类间特异的TF-motif</li>
+<li>策略4，整合scRNA</li>
+<li>筛选细胞类型
+<ul>
+<li>TF/Peak可及性差异分析</li>
+<li>共可及性分析</li>
+<li>拟时间分析</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="质控">质控</h4>
+<h5 id="fragment">fragment</h5>
+<p>如cellranger-atac算法中，认为fragments数量超过阈值，且保守可信的peaks区域中的fragments的比例大于阈值时，barcodes才是有效细胞。</p>
+<h5 id="tss-enrichment-score">TSS enrichment score</h5>
+<p>基因转录时开放TSS区域，结合转录因子等转录起始复合物，一般情况下TSS区域的fragments占细胞全部fragments的25%-35%。一般要求有效细胞barcode的TSS富集得分&gt;4，且barcode包含fragments&gt;1000。</p>
+<p>相当于计算每个细胞的信噪比：基于TSS中心的fragments和TSS侧翼区域fragments的比例。</p>
+<h5 id="nucleosome_signal">nucleosome_signal</h5>
+<p>DNA开放区域长度，一般在1-2个核小体范围内，一般过滤掉nuclesome-signal&gt;4的barcodes</p>
+<h5 id="blacklist-regions-ratio">blacklist regions ratio</h5>
+<p>blacklist regions 基因组中总反常或二代测序中的高信号区域。过滤掉</p>
+<h5 id="双细胞">双细胞</h5>
+<p>一个barcode中包含的fragments太多，说明可能包含两个或多个细胞。fragments数目阈值或demuxlet双细胞过滤，对Doublet Enrichment得分从大到小排序，按比例过滤。</p>
+<h4 id="聚类">聚类</h4>
+<h5 id="策略1tile-matrix">策略1，Tile Matrix</h5>
+<p>设置滑动窗口bin（如5kb），依次统计单个细胞在每个bin中fragments的数量。</p>
+<p>fragments指的是atac-seq双端测序后得到的序列，分析过程中的fragment指的是记录在染色体上，经过偏移校正后，单碱基的起始位置和结束位置。同样insertion指的是偏移校正后开放位置中心的单碱基位置。</p>
+<h5 id="策略2peakmatrix">策略2，PeakMatrix</h5>
+<p>对fragment进行peak calling，过滤可信度低的数据（在少数细胞中出现的peak），最终生成Peak-Barcode可及性矩阵。在marker gene上下游特别是TSS区域Peaks分布差异，知道细胞分类。scRNA数据feature数目大约2-3万，scATAC peaks大约10万左右。</p>
+<p><strong>基于上述矩阵进行降维</strong></p>
+<h5 id="策略3tf-motif-matrix">策略3，TF-motif Matrix</h5>
+<p>一个TF通常包含一个可结合的DNA motif，少数情况下有两个或多个。对peaks反向搜索，统计每个TF-motif在每个细胞中可以结合的fragments数目，得到单细胞层面、转录因子水平的可及性矩阵TF-motif Matrix。chromeVAR。 TF-motif库，中数据在600左右，所以从Peak-motif可以看作数据降维的过程。</p>
+<p><strong>还有基于Gene Score Matrix进行聚类</strong></p>
+<h5 id="初始聚类-peak-calling-再聚类">初始聚类-&gt;peak calling-&gt;再聚类</h5>
+<ul>
+<li>
+<p>有效细胞筛选</p>
+</li>
+<li>
+<p>TileMatrix聚类</p>
+</li>
+<li>
+<p>对cluster中，每200个细胞合并为一个pseudo bulk ATAC数据</p>
+</li>
+<li>
+<p>对每个pseudo bulk ATAC数据做call peaks，再合并</p>
+</li>
+<li>
+<p>得到Peak Matrix</p>
+</li>
+</ul>
+<p>合并为pseudo bulk ATAC数据，有效减少scATAC数据捕获不足导致的数据缺失；同时callpeak得到细胞群间特异的peaks。</p>
+<h5 id="peaks标准化">peaks标准化</h5>
+<p>log（TF-IDF）文档频率法：TF是词频(Term Frequency)，IDF是逆文本频率指数(Inverse Document Frequency)。单个词汇在一篇文章中出现的次数越多，越重要。但是在语料库多次出现，重要性越来越低。IDF : 计算A term 出现稀少度。越稀少，越重要。</p>
+<h5 id="peaks降维">peaks降维</h5>
+<p>LSI：潜在语义索引</p>
+<h4 id="细胞类型注释">细胞类型注释</h4>
+<h5 id="maker基因">Maker基因</h5>
+<p>在细胞分群结果基础上，进行类间peak可及性分析，根据marker基因TSS区域或整个基因区域的可及性类间差异，对细胞群进行人工注释。</p>
+<h5 id="基因活性">基因活性</h5>
+<p>Gene Score Matrix基因活性得分矩阵，考虑peak与TSS/gene body的距离、测序深度等因素采用广义线性模型将Peak Matrix转换为Gene Score Matrix，常用软件Cicero、Signac、ArchR。</p>
+<p>基因活性得分可以理解为基于表观数据预测出来的基因表达值。可以通过观察marker gene在细胞群中活性得分值的特异分布，进行细胞类型人工注释、或SingleR、Cellassign</p>
+<h5 id="联合scrna转移类标签">联合scRNA转移类标签</h5>
+<p>寻找最接近且已经注释好细胞类型的scRNA数据，基于Gene Score，采用Seurat TransferData方法，获得scATAC的细胞类型注释</p>
+<h5 id="共可及性分析">共可及性分析</h5>
+<p>peak-peak共可及性分析，常用来研究基因组上的顺式作用元件间的相互作用，Cicero</p>
+<p>横坐标预测到的共可及性网络区间内的peaks和注释到的基因，纵坐标共可及性值，弧线为peak之间的相互作用连接线</p>
+<h5 id="拟时间分析趋势分析">拟时间分析（趋势分析）</h5>
+<p>基于基因活性得分矩阵，Monocle软件实现scATAC数据的拟时间分析</p>
+<p>一篇单细胞ATAC-seq分析的综述：<br>
+Shi, P., Nie, Y., Yang, J. et al. Fundamental and practical approaches for single-cell ATAC-seq analysis. aBIOTECH 3, 212–223 (2022). https://doi.org/10.1007/s42994-022-00082-5</p>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://bosibocai.github.io/post/gai-lu-fen-bu/">
+                  <h3 class="post-title">
+                    概率分布
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

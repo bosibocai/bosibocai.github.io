@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://bosibocai.github.io</id>
+    <title>Bosibocai&apos;s blog</title>
+    <updated>2022-11-22T01:34:03.100Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://bosibocai.github.io"/>
+    <link rel="self" href="https://bosibocai.github.io/atom.xml"/>
+    <subtitle>人生如逆旅 我亦是行人</subtitle>
+    <logo>https://bosibocai.github.io/images/avatar.png</logo>
+    <icon>https://bosibocai.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2022, Bosibocai&apos;s blog</rights>
+    <entry>
+        <title type="html"><![CDATA[Self-attention]]></title>
+        <id>https://bosibocai.github.io/post/self-attention/</id>
+        <link href="https://bosibocai.github.io/post/self-attention/">
+        </link>
+        <updated>2022-11-18T13:31:48.000Z</updated>
+        <summary type="html"><![CDATA[<blockquote>
+<p>对于神经网络，我们要做的是降低网络的弹性，使得它专注于当前任务，因此我们构建了各种架构。自注意力模型希望找出一段seq中的输入值的相关性，因此我们手动构建了一个方便机器快速计算出相关性的模型。</p>
+</blockquote>
+]]></summary>
+        <content type="html"><![CDATA[<blockquote>
+<p>对于神经网络，我们要做的是降低网络的弹性，使得它专注于当前任务，因此我们构建了各种架构。自注意力模型希望找出一段seq中的输入值的相关性，因此我们手动构建了一个方便机器快速计算出相关性的模型。</p>
+</blockquote>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[scATAC基本分析思路]]></title>
+        <id>https://bosibocai.github.io/post/scatac-ji-ben-fen-xi-si-lu/</id>
+        <link href="https://bosibocai.github.io/post/scatac-ji-ben-fen-xi-si-lu/">
+        </link>
+        <updated>2022-11-16T03:10:25.000Z</updated>
+        <summary type="html"><![CDATA[<blockquote>
+<p>scATAC揭示了单细胞分辨率的表观遗传景观。 该测定法已成功应用于鉴定细胞类型及其特定的调控件揭示细胞异质性，映射疾病相关的远端元素并重建分化轨迹 。然而，由于accessible peaks的固有高维度，以及单细胞sequencing reads的稀疏性，分析scATAC 数据仍然面临着巨大的挑战。</p>
+</blockquote>
+]]></summary>
+        <content type="html"><![CDATA[<blockquote>
+<p>scATAC揭示了单细胞分辨率的表观遗传景观。 该测定法已成功应用于鉴定细胞类型及其特定的调控件揭示细胞异质性，映射疾病相关的远端元素并重建分化轨迹 。然而，由于accessible peaks的固有高维度，以及单细胞sequencing reads的稀疏性，分析scATAC 数据仍然面临着巨大的挑战。</p>
+</blockquote>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[概率分布]]></title>
+        <id>https://bosibocai.github.io/post/gai-lu-fen-bu/</id>
+        <link href="https://bosibocai.github.io/post/gai-lu-fen-bu/">
+        </link>
+        <updated>2022-11-05T12:43:22.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[贝叶斯定理]]></title>
+        <id>https://bosibocai.github.io/post/bei-xie-si-ding-li/</id>
+        <link href="https://bosibocai.github.io/post/bei-xie-si-ding-li/">
+        </link>
+        <updated>2022-11-05T11:40:21.000Z</updated>
+        <summary type="html"><![CDATA[<blockquote>
+<p>将简单的道理用数学的手段进行精确的量化描述</p>
+</blockquote>
+]]></summary>
+        <content type="html"><![CDATA[<blockquote>
+<p>将简单的道理用数学的手段进行精确的量化描述</p>
+</blockquote>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Latent Dirichlet Allocation(LDA)主题模型]]></title>
+        <id>https://bosibocai.github.io/post/latent-dirichlet-allocationldazhu-ti-mo-xing/</id>
+        <link href="https://bosibocai.github.io/post/latent-dirichlet-allocationldazhu-ti-mo-xing/">
+        </link>
+        <updated>2022-11-05T07:17:32.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Scanpy]]></title>
+        <id>https://bosibocai.github.io/post/scanpy/</id>
+        <link href="https://bosibocai.github.io/post/scanpy/">
+        </link>
+        <updated>2022-11-05T05:37:32.000Z</updated>
+        <summary type="html"><![CDATA[<blockquote>
+<p>Scanpy 是一个基于 Python 分析单细胞数据的软件包，内容包括预处理，可视化，聚类，拟时序分析和差异表达分析等</p>
+</blockquote>
+]]></summary>
+        <content type="html"><![CDATA[<blockquote>
+<p>Scanpy 是一个基于 Python 分析单细胞数据的软件包，内容包括预处理，可视化，聚类，拟时序分析和差异表达分析等</p>
+</blockquote>
+]]></content>
+    </entry>
+</feed>
